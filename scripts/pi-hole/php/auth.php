@@ -46,7 +46,7 @@ function check_cors() {
     # Allow user set virtual hostnames
     $virtual_host = getenv('VIRTUAL_HOST');
     if (! empty($virtual_host))
-        array_push($AUTHORIZED_HOSTNAMES, $virtual_host);
+        $AUTHORIZED_HOSTNAMES[] = $virtual_host;
 
     // Since the Host header is easily manipulated, we can only check if it's wrong and can't use it
     // to validate that the client is authorized, only unauthorized.

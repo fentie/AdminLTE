@@ -106,7 +106,7 @@ $DNSactive = [];
 $i = 1;
 while (isset($setupVars["PIHOLE_DNS_" . $i])) {
     if (isinserverlist($setupVars["PIHOLE_DNS_" . $i])) {
-        array_push($DNSactive, $setupVars["PIHOLE_DNS_" . $i]);
+        $DNSactive[] = $setupVars["PIHOLE_DNS_" . $i];
     } elseif (strpos($setupVars["PIHOLE_DNS_" . $i], ".") !== false) {
         if (!isset($custom1)) {
             $custom1 = $setupVars["PIHOLE_DNS_" . $i];
@@ -684,7 +684,7 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "adlists", "
                                             $clid = "<i>unknown</i>";
                                         }
 
-                                        array_push($dhcp_leases, ["TIME" => $time, "hwaddr" => strtoupper($line[1]), "IP" => $line[2], "host" => $host, "clid" => $clid, "type" => $type]);
+                                        $dhcp_leases[] = ["TIME" => $time, "hwaddr" => strtoupper($line[1]), "IP" => $line[2], "host" => $host, "clid" => $clid, "type" => $type];
                                     }
                                 }
                             }

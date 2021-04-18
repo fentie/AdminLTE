@@ -56,7 +56,7 @@ function archive_add_table($name, $table, $type=-1)
 	$content = array();
 	while ($row = $results->fetchArray(SQLITE3_ASSOC))
 	{
-		array_push($content, $row);
+		$content[] = $row;
 	}
 
 	$archive[$name] = json_encode($content);
@@ -88,7 +88,7 @@ function archive_restore_table($file, $table, $flush=false)
 	if($flush && !in_array($table, $flushed_tables))
 	{
 		$db->exec("DELETE FROM \"".$table."\"");
-		array_push($flushed_tables, $table);
+		$flushed_tables[] = $table;
 	}
 
 	// Prepare fields depending on the table we restore to
@@ -280,10 +280,10 @@ function flush_table($table, $type=null)
 	{
 		if($type !== null) {
 			$sql = "DELETE FROM \"".$table."\" WHERE type = ".$type;
-			array_push($flushed_tables, $table.$type);
+			$flushed_tables[] = $table . $type;
 		} else {
 			$sql = "DELETE FROM \"".$table."\"";
-			array_push($flushed_tables, $table);
+			$flushed_tables[] = $table;
 		}
 		$db->exec($sql);
 	}

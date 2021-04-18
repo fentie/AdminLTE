@@ -119,18 +119,18 @@ function readStaticLeasesFile($origin_file="/etc/dnsmasq.d/04-pihole-static-dhcp
 		{
 			if(validIP($one) && strlen($two) == 0)
 				// dhcp-host=mac,IP - no HOST
-				array_push($dhcp_static_leases,["hwaddr"=>$mac, "IP"=>$one, "host"=>""]);
+				$dhcp_static_leases[] = ["hwaddr" => $mac, "IP" => $one, "host" => ""];
 			elseif(strlen($two) == 0)
 				// dhcp-host=mac,hostname - no IP
-				array_push($dhcp_static_leases,["hwaddr"=>$mac, "IP"=>"", "host"=>$one]);
+				$dhcp_static_leases[] = ["hwaddr" => $mac, "IP" => "", "host" => $one];
 			else
 				// dhcp-host=mac,IP,hostname
-				array_push($dhcp_static_leases,["hwaddr"=>$mac, "IP"=>$one, "host"=>$two]);
+				$dhcp_static_leases[] = ["hwaddr" => $mac, "IP" => $one, "host" => $two];
 		}
 		else if(validIP($one) && validDomain($mac))
 		{
 			// dhcp-host=hostname,IP - no MAC
-			array_push($dhcp_static_leases,["hwaddr"=>"", "IP"=>$one, "host"=>$mac]);
+			$dhcp_static_leases[] = ["hwaddr" => "", "IP" => $one, "host" => $mac];
 		}
 	}
 	return true;
@@ -275,7 +275,7 @@ function addStaticDHCPLease($mac, $ip, $hostname) {
 					{
 						if(@array_key_exists("DNSserver".str_replace(".","_",$value[$type]),$_POST))
 						{
-							array_push($DNSservers,$value[$type]);
+							$DNSservers[] = $value[$type];
 						}
 					}
 				}
@@ -307,7 +307,7 @@ function addStaticDHCPLease($mac, $ip, $hostname) {
 								}
 							}
 
-							array_push($DNSservers,$IP);
+							$DNSservers[] = $IP;
 						}
 					}
 				}

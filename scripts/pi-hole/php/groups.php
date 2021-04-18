@@ -36,7 +36,7 @@ function JSON_error($message = null)
     header('Content-type: application/json');
     $response = array('success' => false, 'message' => $message);
     if (isset($_POST['action'])) {
-        array_push($response, array('action' => $_POST['action']));
+        $response[] = array('action' => $_POST['action']);
     }
     echo json_encode($response);
 }
@@ -47,7 +47,7 @@ if ($_POST['action'] == 'get_groups') {
         $query = $db->query('SELECT * FROM "group";');
         $data = array();
         while (($res = $query->fetchArray(SQLITE3_ASSOC)) !== false) {
-            array_push($data, $res);
+            $data[] = $res;
         }
 
         header('Content-type: application/json');
@@ -209,11 +209,11 @@ if ($_POST['action'] == 'get_groups') {
 
             $groups = array();
             while ($gres = $group_query->fetchArray(SQLITE3_ASSOC)) {
-                array_push($groups, $gres['group_id']);
+                $groups[] = $gres['group_id'];
             }
             $group_query->finalize();
             $res['groups'] = $groups;
-            array_push($data, $res);
+            $data[] = $res;
         }
 
         header('Content-type: application/json');
@@ -242,9 +242,9 @@ if ($_POST['action'] == 'get_groups') {
             $addresses = [];
             $names = [];
             while ($res_ips = $query_ips->fetchArray(SQLITE3_ASSOC)) {
-                array_push($addresses, utf8_encode($res_ips["ip"]));
+                $addresses[] = utf8_encode($res_ips["ip"]);
                 if($res_ips["name"] !== null)
-                    array_push($names,utf8_encode($res_ips["name"]));
+                    $names[] = utf8_encode($res_ips["name"]);
             }
             $query_ips->finalize();
 
@@ -476,7 +476,7 @@ if ($_POST['action'] == 'get_groups') {
 
             $groups = array();
             while ($gres = $group_query->fetchArray(SQLITE3_ASSOC)) {
-                array_push($groups, $gres['group_id']);
+                $groups[] = $gres['group_id'];
             }
             $res['groups'] = $groups;
             if (extension_loaded("intl") &&
@@ -510,7 +510,7 @@ if ($_POST['action'] == 'get_groups') {
                     $res['domain'] = $utf8_domain.' ('.$res['domain'].')';
                 }
             }
-            array_push($data, $res);
+            $data[] = $res;
         }
 
         header('Content-type: application/json');
@@ -897,10 +897,10 @@ if ($_POST['action'] == 'get_groups') {
 
             $groups = array();
             while ($gres = $group_query->fetchArray(SQLITE3_ASSOC)) {
-                array_push($groups, $gres['group_id']);
+                $groups[] = $gres['group_id'];
             }
             $res['groups'] = $groups;
-            array_push($data, $res);
+            $data[] = $res;
         }
 
         header('Content-type: application/json');

@@ -70,17 +70,17 @@ if(isset($_GET["network"]) && $auth)
 		$network_addresses = $db->query("SELECT ip,name FROM network_addresses WHERE network_id = $id ORDER BY lastSeen DESC");
 		while($network_addresses !== false && $network_address = $network_addresses->fetchArray(SQLITE3_ASSOC))
 		{
-			array_push($res["ip"],$network_address["ip"]);
+			$res["ip"][] = $network_address["ip"];
 			if($network_address["name"] !== null)
-				array_push($res["name"],utf8_encode($network_address["name"]));
+				$res["name"][] = utf8_encode($network_address["name"]);
 			else
-				array_push($res["name"],"");
+				$res["name"][] = "";
 		}
 		$network_addresses->finalize();
 
 		// UTF-8 encode vendor
 		$res["macVendor"] = utf8_encode($res["macVendor"]);
-		array_push($network, $res);
+		$network[] = $res;
 	}
 	$results->finalize();
 
@@ -421,7 +421,7 @@ if(isset($_GET["messages"]) && $auth)
 			if (is_string($value))
 				$res[$key] = htmlspecialchars(utf8_encode($value));
 		}
-		array_push($messages, $res);
+		$messages[] = $res;
 	}
 
 	$data = array_merge($data, array('messages' => $messages));

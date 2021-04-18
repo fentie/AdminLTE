@@ -326,7 +326,7 @@ else
 			$tmp[2] = utf8_encode(str_replace("~"," ",$tmp[2]));
 			// UTF-8 encode client host name
 			$tmp[3] = utf8_encode($tmp[3]);
-			array_push($allQueries,$tmp);
+			$allQueries[] = $tmp;
 		}
 
 		$result = array('data' => $allQueries);
