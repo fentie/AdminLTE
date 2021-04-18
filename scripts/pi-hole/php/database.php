@@ -126,7 +126,7 @@ function add_to_table($db, $table, $domains, $comment=null, $wildcardstyle=false
 	{
 		$countquery = "SELECT COUNT(*) FROM $table WHERE type = $type;";
 	}
-	$initialcount = intval($db->querySingle($countquery));
+	$initialcount = (int) $db->querySingle($countquery);
 
 	// Prepare INSERT SQLite statememt
 	$bindcomment = false;
@@ -192,7 +192,7 @@ function add_to_table($db, $table, $domains, $comment=null, $wildcardstyle=false
 		return $num;
 	else
 	{
-		$finalcount = intval($db->querySingle($countquery));
+		$finalcount = (int) $db->querySingle($countquery);
 		$modified = $finalcount - $initialcount;
 
 		// If we add less domains than the user specified, then they wanted to add duplicates
@@ -249,7 +249,7 @@ function remove_from_table($db, $table, $domains, $returnnum=false, $type=-1)
 	{
 		$countquery = "SELECT COUNT(*) FROM $table WHERE type = $type;";
 	}
-	$initialcount = intval($db->querySingle($countquery));
+	$initialcount = (int) $db->querySingle($countquery);
 
 	// Prepare SQLite statememt
 	if($type === -1)

@@ -43,7 +43,7 @@
     {
         // $output could be either 4-5 digits or 2-3, and we only divide by 1000 if it's 4-5
         // ex. 39007 vs 39
-        $celsius = intval($output);
+        $celsius = (int) $output;
 
         // If celsius is greater than 1 degree and is in the 4-5 digit format
         if($celsius > 1000) {
@@ -54,7 +54,7 @@
         // Get user-defined temperature limit if set
         if(isset($setupVars['TEMPERATURE_LIMIT']))
         {
-            $temperaturelimit = intval($setupVars['TEMPERATURE_LIMIT']);
+            $temperaturelimit = (int) $setupVars['TEMPERATURE_LIMIT'];
         }
         else
         {
@@ -93,7 +93,7 @@
             if(count($expl) == 2)
             {
                 // remove " kB" from the end of the string and make it an integer
-                $meminfo[$expl[0]] = intval(substr($expl[1],0, -3));
+                $meminfo[$expl[0]] = (int) substr($expl[1], 0, -3);
             }
         }
         $memory_used = $meminfo["MemTotal"]-$meminfo["MemFree"]-$meminfo["Buffers"]-$meminfo["Cached"];
@@ -149,7 +149,7 @@
     {
         return shell_exec("pidof pihole-FTL");
     }
-    $FTLpid = intval(pidofFTL());
+    $FTLpid = (int) pidofFTL();
     $FTL = ($FTLpid !== 0 ? true : false);
 
     $piholeFTLConf = piholeFTLConfig();

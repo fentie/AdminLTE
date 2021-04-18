@@ -41,7 +41,7 @@ function connectFTL($address, $port=4711)
 		{
 			$portfileContents = file_get_contents($portfileName);
 			if(is_numeric($portfileContents))
-				$port = intval($portfileContents);
+				$port = (int) $portfileContents;
 		}
 	}
 

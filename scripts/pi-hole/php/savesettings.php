@@ -663,7 +663,7 @@ function addStaticDHCPLease($mac, $ip, $hostname) {
 					$leasetime = $_POST["leasetime"];
 
 					// Validate Lease time length
-					if(!is_numeric($leasetime) || intval($leasetime) < 0)
+					if(!is_numeric($leasetime) || (int) $leasetime < 0)
 					{
 						$error .= "Lease time ".htmlspecialchars($leasetime)." is invalid!<br>";
 					}
@@ -703,12 +703,12 @@ function addStaticDHCPLease($mac, $ip, $hostname) {
 				break;
 
 			case "privacyLevel":
-				$level = intval($_POST["privacylevel"]);
+				$level = (int) $_POST["privacylevel"];
 				if($level >= 0 && $level <= 4)
 				{
 					// Check if privacylevel is already set
 					if (isset($piholeFTLConf["PRIVACYLEVEL"])) {
-						$privacylevel = intval($piholeFTLConf["PRIVACYLEVEL"]);
+						$privacylevel = (int) $piholeFTLConf["PRIVACYLEVEL"];
 					} else {
 						$privacylevel = 0;
 					}

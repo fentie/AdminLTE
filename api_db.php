@@ -62,7 +62,7 @@ if(isset($_GET["network"]) && $auth)
 
 	while($results !== false && $res = $results->fetchArray(SQLITE3_ASSOC))
 	{
-		$id = intval($res["id"]);
+		$id = (int) $res["id"];
 
 		// Get IP addresses and host names for this device
 		$res["ip"] = array();
@@ -92,8 +92,8 @@ if (isset($_GET['getAllQueries']) && $auth)
 	$allQueries = array();
 	if($_GET['getAllQueries'] !== "empty")
 	{
-		$from = intval($_GET["from"]);
-		$until = intval($_GET["until"]);
+		$from = (int) $_GET["from"];
+		$until = (int) $_GET["until"];
 		$dbquery = "SELECT timestamp, type, domain, client, status, forward FROM queries WHERE timestamp >= :from AND timestamp <= :until ";
 		if(isset($_GET["types"]))
 		{
@@ -114,8 +114,8 @@ if (isset($_GET['getAllQueries']) && $auth)
 		}
 		$dbquery .= "ORDER BY timestamp ASC";
 		$stmt = $db->prepare($dbquery);
-		$stmt->bindValue(":from", intval($from), SQLITE3_INTEGER);
-		$stmt->bindValue(":until", intval($until), SQLITE3_INTEGER);
+		$stmt->bindValue(":from", $from, SQLITE3_INTEGER);
+		$stmt->bindValue(":until", $until, SQLITE3_INTEGER);
 		$results = $stmt->execute();
 		if(!is_bool($results))
 			while ($row = $results->fetchArray())
@@ -137,7 +137,6 @@ if (isset($_GET['getAllQueries']) && $auth)
 
 if (isset($_GET['topClients']) && $auth)
 {
-	// $from = intval($_GET["from"]);
 	$limit = "";
 	if(isset($_GET["from"]) && isset($_GET["until"]))
 	{
@@ -152,8 +151,8 @@ if (isset($_GET['topClients']) && $auth)
 		$limit = "WHERE timestamp <= :until";
 	}
 	$stmt = $db->prepare('SELECT client,count(client) FROM queries '.$limit.' GROUP by client order by count(client) desc limit 20');
-	$stmt->bindValue(":from", intval($_GET['from']), SQLITE3_INTEGER);
-	$stmt->bindValue(":until", intval($_GET['until']), SQLITE3_INTEGER);
+	$stmt->bindValue(":from", (int) $_GET['from'], SQLITE3_INTEGER);
+	$stmt->bindValue(":until", (int) $_GET['until'], SQLITE3_INTEGER);
 	$results = $stmt->execute();
 
 	$clientnums = array();
@@ -167,12 +166,12 @@ if (isset($_GET['topClients']) && $auth)
 			if(array_key_exists($c, $clientnums))
 			{
 				// Entry already exists, add to it (might appear multiple times due to mixed capitalization in the database)
-				$clientnums[$c] += intval($row[1]);
+				$clientnums[$c] += (int) $row[1];
 			}
 			else
 			{
 				// Entry does not yet exist
-				$clientnums[$c] = intval($row[1]);
+				$clientnums[$c] = (int) $row[1];
 			}
 		}
 
@@ -204,8 +203,8 @@ if (isset($_GET['topDomains']) && $auth)
 	}
 	// Select top permitted domains only
 	$stmt = $db->prepare('SELECT domain,count(domain) FROM queries WHERE status IN (2,3,12,13,14)'.$limit.' GROUP by domain order by count(domain) desc limit 20');
-	$stmt->bindValue(":from", intval($_GET['from']), SQLITE3_INTEGER);
-	$stmt->bindValue(":until", intval($_GET['until']), SQLITE3_INTEGER);
+	$stmt->bindValue(":from", (int) $_GET['from'], SQLITE3_INTEGER);
+	$stmt->bindValue(":until", (int) $_GET['until'], SQLITE3_INTEGER);
 	$results = $stmt->execute();
 
 	$domains = array();
@@ -218,12 +217,12 @@ if (isset($_GET['topDomains']) && $auth)
 			if(array_key_exists($c, $domains))
 			{
 				// Entry already exists, add to it (might appear multiple times due to mixed capitalization in the database)
-				$domains[$c] += intval($row[1]);
+				$domains[$c] += (int) $row[1];
 			}
 			else
 			{
 				// Entry does not yet exist
-				$domains[$c] = intval($row[1]);
+				$domains[$c] = (int) $row[1];
 			}
 		}
 
@@ -254,8 +253,8 @@ if (isset($_GET['topAds']) && $auth)
 		$limit = " AND timestamp <= :until";
 	}
 	$stmt = $db->prepare('SELECT domain,count(domain) FROM queries WHERE status IN (1,4,5,6,7,8,9,10,11)'.$limit.' GROUP by domain order by count(domain) desc limit 10');
-	$stmt->bindValue(":from", intval($_GET['from']), SQLITE3_INTEGER);
-	$stmt->bindValue(":until", intval($_GET['until']), SQLITE3_INTEGER);
+	$stmt->bindValue(":from", (int) $_GET['from'], SQLITE3_INTEGER);
+	$stmt->bindValue(":until", (int) $_GET['until'], SQLITE3_INTEGER);
 	$results = $stmt->execute();
 
 	$addomains = array();
@@ -263,7 +262,7 @@ if (isset($_GET['topAds']) && $auth)
 	if(!is_bool($results))
 		while ($row = $results->fetchArray())
 		{
-			$addomains[utf8_encode($row[0])] = intval($row[1]);
+			$addomains[utf8_encode($row[0])] = (int) $row[1];
 		}
 	$result = array('top_ads' => $addomains);
 	$data = array_merge($data, $result);
@@ -333,14 +332,14 @@ if (isset($_GET['getGraphData']) && $auth)
 
 	if(isset($_GET["interval"]))
 	{
-		$q = intval($_GET["interval"]);
+		$q = (int) $_GET["interval"];
 		if($q > 10)
 			$interval = $q;
 	}
 
 	// Round $from and $until to match the requested $interval
-	$from = intval((intval($_GET['from'])/$interval)*$interval);
-	$until = intval((intval($_GET['until'])/$interval)*$interval);
+	$from = (int) (((int) $_GET['from'] / $interval) * $interval);
+	$until = (int) (((int) $_GET['until'] / $interval) * $interval);
 
 	// Count permitted queries in intervals
 	$stmt = $db->prepare('SELECT (timestamp/:interval)*:interval interval, COUNT(*) FROM queries WHERE (status != 0 )'.$limit.' GROUP by interval ORDER by interval');
@@ -358,9 +357,9 @@ if (isset($_GET['getGraphData']) && $auth)
 			// Read in the data
 			while($row = $results->fetchArray()) {
 				// $data[timestamp] = value_in_this_interval
-				$data[$row[0]] = intval($row[1]);
+				$data[$row[0]] = (int) $row[1];
 				if($first_db_timestamp === -1)
-					$first_db_timestamp = intval($row[0]);
+					$first_db_timestamp = (int) $row[0];
 			}
 		}
 

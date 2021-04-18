@@ -69,8 +69,8 @@ elseif (isset($_GET['disable']) && $auth)
 		// Skip token validation if explicit auth string is given
 		check_csrf($_GET['token']);
 	}
-	$disable = intval($_GET['disable']);
-	// intval returns the integer value on success, or 0 on failure
+	$disable = (int) $_GET['disable'];
+	// int cast returns the integer value on success, or 0 on failure
 	if($disable > 0)
 	{
 		$timestamp = time();

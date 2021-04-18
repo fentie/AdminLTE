@@ -59,7 +59,7 @@ else
 			}
 			else
 			{
-				$stats[$tmp[0]] = floatval($tmp[1]);
+				$stats[$tmp[0]] = (float) $tmp[1];
 			}
 		}
 		$stats['gravity_last_updated'] = gravity_last_update(true);
@@ -76,8 +76,8 @@ else
 		foreach($return as $line)
 		{
 			$tmp = explode(" ",$line);
-			$domains_over_time[intval($tmp[0])] = intval($tmp[1]);
-			$ads_over_time[intval($tmp[0])] = intval($tmp[2]);
+			$domains_over_time[(int) $tmp[0]] = (int) $tmp[1];
+			$ads_over_time[(int) $tmp[0]] = (int) $tmp[2];
 		}
 		$result = array('domains_over_time' => $domains_over_time,
 		                'ads_over_time' => $ads_over_time);
@@ -105,7 +105,7 @@ else
 		{
 			$tmp = explode(" ",$line);
 			$domain = utf8_encode($tmp[2]);
-			$top_queries[$domain] = intval($tmp[1]);
+			$top_queries[$domain] = (int) $tmp[1];
 		}
 
 		if($_GET['topItems'] === "audit")
@@ -128,9 +128,9 @@ else
 			$tmp = explode(" ",$line);
 			$domain = utf8_encode($tmp[2]);
 			if(count($tmp) > 3)
-				$top_ads[$domain." (".$tmp[3].")"] = intval($tmp[1]);
+				$top_ads[$domain." (".$tmp[3].")"] = (int) $tmp[1];
 			else
-				$top_ads[$domain] = intval($tmp[1]);
+				$top_ads[$domain] = (int) $tmp[1];
 		}
 
 		$result = array('top_queries' => $top_queries,
@@ -169,10 +169,10 @@ else
 			if(count($tmp) > 3 && strlen($tmp[3]) > 0)
 			{
 				$clientname = utf8_encode($tmp[3]);
-				$top_clients[$clientname."|".$clientip] = intval($tmp[1]);
+				$top_clients[$clientname."|".$clientip] = (int) $tmp[1];
 			}
 			else
-				$top_clients[$clientip] = intval($tmp[1]);
+				$top_clients[$clientip] = (int) $tmp[1];
 		}
 
 		$result = array('top_sources' => $top_clients);
@@ -205,10 +205,10 @@ else
 			if(count($tmp) > 3 && strlen($tmp[3]) > 0)
 			{
 				$clientname = utf8_encode($tmp[3]);
-				$top_clients[$clientname."|".$clientip] = intval($tmp[1]);
+				$top_clients[$clientname."|".$clientip] = (int) $tmp[1];
 			}
 			else
-				$top_clients[$clientip] = intval($tmp[1]);
+				$top_clients[$clientip] = (int) $tmp[1];
 		}
 
 		$result = array('top_sources_blocked' => $top_clients);
@@ -234,10 +234,10 @@ else
 			if(count($tmp) > 3 && strlen($tmp[3]) > 0)
 			{
 				$forwardname = utf8_encode($tmp[3]);
-				$forward_dest[$forwardname."|".$forwardip] = floatval($tmp[1]);
+				$forward_dest[$forwardname."|".$forwardip] = (float) $tmp[1];
 			}
 			else
-				$forward_dest[$forwardip] = floatval($tmp[1]);
+				$forward_dest[$forwardip] = (float) $tmp[1];
 		}
 
 		$result = array('forward_destinations' => $forward_dest);
@@ -253,7 +253,7 @@ else
 		{
 			$tmp = explode(": ",$ret);
 			// Reply cannot contain non-ASCII characters
-			$querytypes[$tmp[0]] = floatval($tmp[1]);
+			$querytypes[$tmp[0]] = (float) $tmp[1];
 		}
 
 		$result = array('querytypes' => $querytypes);
@@ -269,7 +269,7 @@ else
 		{
 			$tmp = explode(": ",$ret);
 			// Reply cannot contain non-ASCII characters
-			$cacheinfo[$tmp[0]] = floatval($tmp[1]);
+			$cacheinfo[$tmp[0]] = (float) $tmp[1];
 		}
 
 		$result = array('cacheinfo' => $cacheinfo);
@@ -352,11 +352,11 @@ else
 			if(count($tmp) > 3)
 			{
 				$forwardname = utf8_encode($tmp[3]);
-				$forward_dest[$forwardname."|".$forwardip] = floatval($tmp[1]);
+				$forward_dest[$forwardname."|".$forwardip] = (float) $tmp[1];
 			}
 			else
 			{
-				$forward_dest[$forwardip] = floatval($tmp[1]);
+				$forward_dest[$forwardip] = (float) $tmp[1];
 			}
 		}
 
@@ -374,7 +374,7 @@ else
 		{
 			$tmp = explode(" ",$line);
 			for ($i=0; $i < count($tmp)-1; $i++) {
-				$over_time[intval($tmp[0])][$i] = floatval($tmp[$i+1]);
+				$over_time[(int) $tmp[0]][$i] = (float) $tmp[$i + 1];
 			}
 		}
 		$result = array('over_time' => $over_time);
@@ -409,7 +409,7 @@ else
 		{
 			$tmp = explode(" ",$line);
 			for ($i=0; $i < count($tmp)-1; $i++) {
-				$over_time[intval($tmp[0])][$i] = floatval($tmp[$i+1]);
+				$over_time[(int) $tmp[0]][$i] = (float) $tmp[$i + 1];
 			}
 		}
 		$result = array('over_time' => $over_time);

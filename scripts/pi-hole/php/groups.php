@@ -127,7 +127,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While binding desc: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id: ' . $db->lastErrorMsg());
         }
 
@@ -154,7 +154,7 @@ if ($_POST['action'] == 'get_groups') {
                 throw new Exception("While preparing DELETE FROM $table statement: " . $db->lastErrorMsg());
             }
 
-            if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+            if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
                 throw new Exception("While binding id to DELETE FROM $table statement: " . $db->lastErrorMsg());
             }
 
@@ -235,7 +235,7 @@ if ($_POST['action'] == 'get_groups') {
         // Loop over results
         $ips = array();
         while ($res = $query->fetchArray(SQLITE3_ASSOC)) {
-            $id = intval($res["id"]);
+            $id = (int) $res["id"];
 
             // Get possibly associated IP addresses and hostnames for this client
             $query_ips = $FTLdb->query("SELECT ip,name FROM network_addresses WHERE network_id = $id ORDER BY lastSeen DESC;");
@@ -361,7 +361,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While binding comment: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id: ' . $db->lastErrorMsg());
         }
 
@@ -374,7 +374,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing DELETE statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id: ' . $db->lastErrorMsg());
         }
 
@@ -391,11 +391,11 @@ if ($_POST['action'] == 'get_groups') {
                 throw new Exception('While preparing INSERT INTO statement: ' . $db->lastErrorMsg());
             }
 
-            if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+            if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
                 throw new Exception('While binding id: ' . $db->lastErrorMsg());
             }
 
-            if (!$stmt->bindValue(':gid', intval($gid), SQLITE3_INTEGER)) {
+            if (!$stmt->bindValue(':gid', (int) $gid, SQLITE3_INTEGER)) {
                 throw new Exception('While binding gid: ' . $db->lastErrorMsg());
             }
 
@@ -422,7 +422,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing client_by_group statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id to client_by_group statement: ' . $db->lastErrorMsg());
         }
 
@@ -435,7 +435,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing client statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id to client statement: ' . $db->lastErrorMsg());
         }
 
@@ -522,7 +522,7 @@ if ($_POST['action'] == 'get_groups') {
     // Add new domain
     try {
         $domains = explode(' ', html_entity_decode(trim($_POST['domain'])));
-        $before = intval($db->querySingle("SELECT COUNT(*) FROM domainlist;"));
+        $before = (int) $db->querySingle("SELECT COUNT(*) FROM domainlist;");
         $total = count($domains);
         $added = 0;
 
@@ -556,7 +556,7 @@ if ($_POST['action'] == 'get_groups') {
         }
 
         if (isset($_POST['type'])) {
-            $type = intval($_POST['type']);
+            $type = (int) $_POST['type'];
         } else if (isset($_POST['list']) && $_POST['list'] === "white") {
             $type = ListType::whitelist;
         } else if (isset($_POST['list']) && $_POST['list'] === "black") {
@@ -688,7 +688,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While commiting changes to the database: ' . $db->lastErrorMsg());
         }
 
-        $after = intval($db->querySingle("SELECT COUNT(*) FROM domainlist;"));
+        $after = (int) $db->querySingle("SELECT COUNT(*) FROM domainlist;");
         $difference = $after - $before;
         if($total === 1) {
             if($difference !== 1) {
@@ -718,7 +718,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing statement: ' . $db->lastErrorMsg());
         }
 
-        $status = intval($_POST['status']);
+        $status = (int) $_POST['status'];
         if ($status !== 0) {
                 $status = 1;
         }
@@ -736,11 +736,11 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While binding comment: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':type', intval($_POST['type']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':type', (int) $_POST['type'], SQLITE3_INTEGER)) {
             throw new Exception('While binding type: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id: ' . $db->lastErrorMsg());
         }
 
@@ -753,7 +753,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing DELETE statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id: ' . $db->lastErrorMsg());
         }
 
@@ -770,11 +770,11 @@ if ($_POST['action'] == 'get_groups') {
                 throw new Exception('While preparing INSERT INTO statement: ' . $db->lastErrorMsg());
             }
 
-            if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+            if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
                 throw new Exception('While binding id: ' . $db->lastErrorMsg());
             }
 
-            if (!$stmt->bindValue(':gid', intval($gid), SQLITE3_INTEGER)) {
+            if (!$stmt->bindValue(':gid', (int) $gid, SQLITE3_INTEGER)) {
                 throw new Exception('While binding gid: ' . $db->lastErrorMsg());
             }
 
@@ -802,7 +802,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing domainlist_by_group statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id to domainlist_by_group statement: ' . $db->lastErrorMsg());
         }
 
@@ -815,7 +815,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing domainlist statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id to domainlist statement: ' . $db->lastErrorMsg());
         }
 
@@ -846,7 +846,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While binding domain to domainlist_by_group statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':type', intval($_POST['type']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':type', (int) $_POST['type'], SQLITE3_INTEGER)) {
             throw new Exception('While binding type to domainlist_by_group statement: ' . $db->lastErrorMsg());
         }
 
@@ -863,7 +863,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While binding domain to domainlist statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':type', intval($_POST['type']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':type', (int) $_POST['type'], SQLITE3_INTEGER)) {
             throw new Exception('While binding type to domainlist statement: ' . $db->lastErrorMsg());
         }
 
@@ -977,7 +977,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing statement: ' . $db->lastErrorMsg());
         }
 
-        $status = intval($_POST['status']);
+        $status = (int) $_POST['status'];
         if ($status !== 0) {
                 $status = 1;
         }
@@ -995,7 +995,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While binding comment: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id: ' . $db->lastErrorMsg());
         }
 
@@ -1008,7 +1008,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing DELETE statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id: ' . $db->lastErrorMsg());
         }
 
@@ -1025,11 +1025,11 @@ if ($_POST['action'] == 'get_groups') {
                 throw new Exception('While preparing INSERT INTO statement: ' . $db->lastErrorMsg());
             }
 
-            if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+            if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
                 throw new Exception('While binding id: ' . $db->lastErrorMsg());
             }
 
-            if (!$stmt->bindValue(':gid', intval($gid), SQLITE3_INTEGER)) {
+            if (!$stmt->bindValue(':gid', (int) $gid, SQLITE3_INTEGER)) {
                 throw new Exception('While binding gid: ' . $db->lastErrorMsg());
             }
 
@@ -1057,7 +1057,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing adlist_by_group statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id to adlist_by_group statement: ' . $db->lastErrorMsg());
         }
 
@@ -1070,7 +1070,7 @@ if ($_POST['action'] == 'get_groups') {
             throw new Exception('While preparing adlist statement: ' . $db->lastErrorMsg());
         }
 
-        if (!$stmt->bindValue(':id', intval($_POST['id']), SQLITE3_INTEGER)) {
+        if (!$stmt->bindValue(':id', (int) $_POST['id'], SQLITE3_INTEGER)) {
             throw new Exception('While binding id to adlist statement: ' . $db->lastErrorMsg());
         }
 
@@ -1091,7 +1091,7 @@ if ($_POST['action'] == 'get_groups') {
         // Add new domain
         try {
             $domains = explode(' ', html_entity_decode(trim($_POST['domain'])));
-            $before = intval($db->querySingle("SELECT COUNT(*) FROM domain_audit;"));
+            $before = (int) $db->querySingle("SELECT COUNT(*) FROM domain_audit;");
             $total = count($domains);
             $added = 0;
 
@@ -1124,7 +1124,7 @@ if ($_POST['action'] == 'get_groups') {
                 throw new Exception('While commiting changes to the database: ' . $db->lastErrorMsg());
             }
 
-            $after = intval($db->querySingle("SELECT COUNT(*) FROM domain_audit;"));
+            $after = (int) $db->querySingle("SELECT COUNT(*) FROM domain_audit;");
             $difference = $after - $before;
             if($total === 1) {
                 if($difference !== 1) {

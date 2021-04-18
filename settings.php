@@ -336,7 +336,7 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "adlists", "
                                                         <th scope="row">
                                                             <span title="Resident memory is the portion of memory occupied by a process that is held in main memory (RAM). The rest of the occupied memory exists in the swap space or file system.">Used memory:</span>
                                                         </th>
-                                                        <td><?php echo formatSizeUnits(1e3 * floatval(get_FTL_data("rss"))); ?></td>
+                                                        <td><?php echo formatSizeUnits(1e3 * (float) get_FTL_data("rss")); ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">
@@ -655,7 +655,7 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "adlists", "
                                 while (!feof($dhcpleases) && $leasesfile) {
                                     $line = explode(" ", trim(fgets($dhcpleases)));
                                     if (count($line) == 5) {
-                                        $counter = intval($line[0]);
+                                        $counter = (int) $line[0];
                                         if ($counter == 0) {
                                             $time = "Infinite";
                                         } elseif ($counter <= 315360000) // 10 years in seconds
@@ -1252,7 +1252,7 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "adlists", "
                 <?php
                 // Get privacy level from piholeFTL config array
                 if (isset($piholeFTLConf["PRIVACYLEVEL"])) {
-                    $privacylevel = intval($piholeFTLConf["PRIVACYLEVEL"]);
+                    $privacylevel = (int) $piholeFTLConf["PRIVACYLEVEL"];
                 } else {
                     $privacylevel = 0;
                 }

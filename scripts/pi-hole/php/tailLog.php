@@ -28,7 +28,7 @@ if(!$file)
 
 if(isset($_GET["offset"]))
 {
-	$offset = intval($_GET['offset']);
+	$offset = (int) $_GET['offset'];
 	if($offset > 0)
 	{
 		// Seeks on the file pointer where we want to continue reading is known

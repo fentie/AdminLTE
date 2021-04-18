@@ -14,7 +14,7 @@
         global $piholeFTLConf;
         if(isset($piholeFTLConf["MAXLOGAGE"]))
         {
-             return round(floatval($piholeFTLConf["MAXLOGAGE"]), 1);
+             return round((float) $piholeFTLConf["MAXLOGAGE"], 1);
         }
         else
         {
