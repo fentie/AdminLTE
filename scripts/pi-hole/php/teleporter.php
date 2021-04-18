@@ -50,7 +50,7 @@ function archive_add_table($name, $table, $type=-1)
 
 	// Return early without creating a file if the
 	// requested table cannot be accessed
-	if(is_null($results))
+	if ($results === null)
 		return;
 
 	$content = array();
@@ -76,12 +76,12 @@ function archive_restore_table($file, $table, $flush=false)
 
 	$json_string = file_get_contents($file);
 	// Return early if we cannot extract the JSON string
-	if(is_null($json_string))
+	if ($json_string === null)
 		return 0;
 
 	$contents = json_decode($json_string, true);
 	// Return early if we cannot decode the JSON string
-	if(is_null($contents))
+	if ($contents === null)
 		return 0;
 
 	// Flush table if requested, only flush each table once
@@ -228,7 +228,7 @@ function archive_insert_into_table($file, $table, $flush=false, $wildcardstyle=f
 
 	$domains = array_filter(explode("\n",file_get_contents($file)));
 	// Return early if we cannot extract the lines in the file
-	if(is_null($domains))
+	if ($domains === null)
 		return 0;
 
 	// Generate comment
